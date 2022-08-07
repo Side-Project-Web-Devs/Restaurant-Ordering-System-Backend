@@ -1,0 +1,118 @@
+{% extends 'login_and_register/regbase.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block style %}
+    <!-- Icons font CSS-->
+    <link href="{% static 'register/register/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'register/register/vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Vendor CSS-->
+    <link href="{% static 'register/register/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'register/register/vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+    <!-- Main CSS-->
+    <link href="{% static 'register/register/css/main.css' %}" rel="stylesheet" media="all">
+{% endblock %}
+
+{% block content %}
+    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins"> <!--Register form-->
+        <div class="wrapper wrapper--w680">
+            <div class="card card-4">
+                <div class="card-body">
+                    <h2 class="title">Registration Form</h2>
+                    {% for message in messages %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    {{ form.first_name | as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    {{ form.last_name | as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <div class="input-group-icon">
+                                        {{ form.username | as_crispy_field }}
+                                    </div>
+                                    <small id="hint_id_username" class="form-text text-muted">
+                                        <ul>
+                                            <li>Maximum of 150 characters</li>
+                                            <li>Letters, digits and @/./+/-/_ only.</li>
+                                        </ul>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    {{ form.email | as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    {{ form.password1 | as_crispy_field }}
+                                </div>
+                                <small id="hint_id_password1" class="form-text text-muted">
+                                    <ul>
+                                        <li>Your password can’t be too similar to your other personal information.</li>
+                                        <li>Your password must contain at least 8 characters.</li>
+                                        <li>Your password can’t be a commonly used password.</li>
+                                        <li>Your password can’t be entirely numeric.</li>
+                                    </ul>
+                                </small>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group ">
+                                    {{ form.password2 | as_crispy_field }}
+                                </div>
+                                <small id="hint_id_username" class="form-text text-muted">
+                                    Reenter password for confirmation
+                                </small>
+                            </div>
+                        </div>
+                        <div class="p-t-15" style="text-align: center">
+                            <button class="btn btn--radius-2 btn--blue" type="submit">Register</button>
+                        </div>
+                    </form>
+                    <div class="flex-col-c p-t-155" style="text-align: center">
+                        <a href="{% url 'login' %}" class="txt2">
+                            Login Instead
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <!-- Jquery JS-->
+    <script src="{% static 'register/register/vendor/jquery/jquery.min.js' %}"></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'register/register/vendor/select2/select2.min.js' %}"></script>
+    <script src="{% static 'register/register/vendor/datepicker/moment.min.js' %}"></script>
+    <script src="{% static 'register/register/vendor/datepicker/daterangepicker.js' %}"></script>
+    <!-- Main JS-->
+    <script src="{% static 'register/register/js/global.js' %}"></script>
+    <script type="text/javascript">
+        document.getElementById("id_role").options[0].remove()
+        document.getElementById("id_role").options[0].remove()
+    </script>
+{% endblock %}
