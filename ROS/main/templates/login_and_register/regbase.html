@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {#TITLE BLOCK#}
+    <title>
+        {% block title %}
+            Title
+        {% endblock %}
+    </title>
+    {#END TITLE BLOCK#}
+    {#BASE CSS#}
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+    {#END BASE CSS#}
+
+    {#CUSTOM STYLES BLOCK#}
+    {% block style %}
+
+    {% endblock %}
+    {#END CUSTOM STYLE#}
+</head>
+<body>
+    {% block content %}
+
+    {% endblock %}
+    {#BASE SCRIPT SRC#}
+    <script src="{% static 'main/js/../../../main/static/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    {#END BASE SCRIPT #}
+
+    {#CUSTOM JS BLOCK#}
+    {% block js %}
+
+    {% endblock %}
+    {#END CUSTOME JS BLOCK #}
+</body>
+</html>
