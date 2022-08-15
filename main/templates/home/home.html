@@ -7,8 +7,10 @@
 <body>
 <div>WELCOME</div>
 <br>
+<div><a href="{% url 'customer_order' %}">View orders</a></div>
 {% if request.user.is_staff %}
 <div><a href="{% url 'qrcode_generator' %}">QR code generator</a></div>
+<div><a href="{% url 'add_product' %}">Add Product</a></div>
 <br>
 
 <div><a href="{% url 'register' %}">Register</a></div>

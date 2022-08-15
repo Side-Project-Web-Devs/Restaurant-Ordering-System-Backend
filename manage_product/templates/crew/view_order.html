@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer's Order</title>
+</head>
+<body>
+    {% for order in orders %}
+        {% if order.status == "ordered" %}
+    <br>
+        {{ order.customer.name }}
+    <br>
+        {{ order.customer.table_number }}
+    <br>
+        {{ order.order.product_name }}
+    <br>
+        {{ order.order.price }}
+    <br>
+        {{ order.quantity }}
+    <hr>
+        {% endif %}
+    {% endfor %}
+</body>
+</html>
