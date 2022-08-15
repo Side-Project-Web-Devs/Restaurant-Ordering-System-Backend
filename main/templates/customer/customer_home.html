@@ -1,0 +1,29 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer</title>
+</head>
+<body>
+{% for cus in customer %}
+<div>WELCOME {{ cus.name }}</div>
+<br>
+    {% for pro in product %}
+    {{ pro.product_name }}
+    {{ pro.description }}
+    {{ pro.image }}
+    {{ pro.price }}
+        <a href="{% url 'add_to_cart' cus.slug pro.slug %}">Add to cart</a>
+    <br>
+    {% endfor %}
+{% endfor %}
+<br>
+{% for cus in customer %}
+    <div>
+        <a href="{% url 'customer_cart' cus.slug %}">View cart</a>
+    </div>
+{% endfor %}
+</body>
+</html>
