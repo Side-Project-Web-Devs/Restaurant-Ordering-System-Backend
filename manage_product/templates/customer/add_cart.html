@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    {% if product.image %}
+    <a href="{{ product.image.url }}">
+        <img src="{{ product.image.url }}" style="width: 50px; height: 50px;" alt="img">
+    </a>
+    {% endif %}
+    <br>
+    Product name: {{ product.product_name}}
+    <br>
+    Description: {{ product.description }}
+    <br>
+    Price: {{ product.price }}
+    <br>
+
+</div>
+<form method="POST">
+    {% csrf_token %}
+    <label>Quantity</label>
+    <input type="number" name="quantity">
+    <button type="submit" >Add</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+</head>
+
+<body>
+    <div>
+            
+        <button><a href="{% url 'my_order' order.customer.slug %}">Back</a></button>
+        <br>
+        Customer's name: {{ order.customer }}
+        <br>            
+        Product name: {{ order.order }}
+        <br>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.feedback }}
+            <br>
+            <button type="submit">Submit feedback</button>
+        </form>
+    </div>
+</body>
+
+</html>

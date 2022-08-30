@@ -7,23 +7,40 @@
     <title>Customer</title>
 </head>
 <body>
+
 {% for cus in customer %}
 <div>WELCOME {{ cus.name }}</div>
 <br>
     {% for pro in product %}
-    {{ pro.product_name }}
-    {{ pro.description }}
-    {{ pro.image }}
-    {{ pro.price }}
-        <a href="{% url 'add_to_cart' cus.slug pro.slug %}">Add to cart</a>
+    {% if pro.image %}
+    <a href="{{ pro.image.url }}">
+        <img src="{{ pro.image.url }}" style="width: 50px; height: 50px;" alt="img">
+    </a>
+    {% endif %}
     <br>
+    Product name: {{ pro.product_name }}
+    <br>
+    Description: {{ pro.description }}
+    <br>
+    Price: {{ pro.price }}
+    <br>
+        <button><a href="{% url 'add_to_cart' cus.slug pro.slug %}">Add to cart</a></button>
+    <br>
+    <hr>
     {% endfor %}
 {% endfor %}
 <br>
 {% for cus in customer %}
     <div>
-        <a href="{% url 'customer_cart' cus.slug %}">View cart</a>
+        <button><a href="{% url 'customer_cart' cus.slug %}">View cart</a></button>
+    </div>
+    <div>
+        <button><a href="{% url 'my_order' cus.slug %}">My order</a></button>
     </div>
 {% endfor %}
+<br>
+<div>
+    <button><a href="{% url 'customer' %}">End order</a></button>
+</div>
 </body>
 </html>

@@ -39,8 +39,10 @@ def customer_info(response):
         form = CustomerForm(response.POST)
         if form.is_valid():
             save = form.save(commit=False)
-            slug = slugify(unicode('%s %s' % (save.name.lower(), save.table_number)))
+            slug = slugify(unicode('%s %s %s' % (save.name.lower(), str(save.id), save.table_number)))
             save.slug = slug
+            save.save()
+            save.slug = slugify(unicode('%s %s %s' % (save.name.lower(), str(save.id), save.table_number)))
             save.save()
             return redirect("customer_home", save.slug)
         else:
@@ -54,7 +56,7 @@ def customer_info(response):
 
 def customer_home(response, slug):
     customer = Customer.objects.filter(slug=slug)
-    product = Manage_product.objects.all()
+    product = Manage_product.objects.exclude(availability=False).all()
     return render(response, 'customer/customer_home.html', {
         'product': product,
         'customer': customer,
