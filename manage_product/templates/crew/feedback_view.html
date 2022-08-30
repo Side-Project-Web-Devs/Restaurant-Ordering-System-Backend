@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback</title>
+</head>
+
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Customer's name</th>
+                <th scope="col">Product name</th>
+                <th scope="col">Feedback</th>
+                <th scope="col">Feedback reply</th>
+            </tr>
+        </thead>
+        {% for feed in feedback %}
+        <tbody>
+            <tr>
+                <td>{{ feed.cus }}</td>
+                <td>{{ feed.ord.order }}</td>
+                <td>{{ feed.feedback }}</td>
+                {% if feed.reply%}
+                <td>{{ feed.reply }} <button><a href="{% url 'delete_reply' feed.id %}">Delete</a></button></td>
+                {% else %}
+                <td><button><a href="{% url 'feedback_reply' feed.id %}">Reply</a></button></td>
+                {% endif %}
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+    <button><a href="{% url 'home' %}">Back</a></button>
+
+</body>
+
+</html>

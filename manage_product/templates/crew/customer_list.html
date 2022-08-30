@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Customer's List</title>
+</head>
+
+<body>
+    {% for cus in customer %}
+    <br>
+    <a href="{% url 'customer_order' cus.slug %}">
+    Name: {{ cus.name }}
+    <br>
+    Table Number: {{ cus.table_number }}
+    <br>
+    </a>
+    <hr>
+    {% endfor %}
+</body>
+
+</html>

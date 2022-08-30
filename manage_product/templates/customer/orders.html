@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders</title>
+</head>
+
+<body>
+    {% for order in orders %}
+    {% if order.status == "ordered" or order.status == "Confirmed: Preparing your order" or order.status == "Ready to serve" or order.status == "Received" %}
+    <br>
+    {% if order.order.image %}
+    <a href="{{ order.order.image.url }}">
+        <img src="{{ order.order.image.url }}" style="width: 50px; height: 50px;" alt="img">
+    </a>
+    {% endif %}
+    <br>
+    Product Name: {{ order.order.product_name }}
+    <br>
+    Description: {{ order.order.description }}
+    <br>
+    Price: {{ order.order.price }}
+    <br>
+    Quantity: {{ order.quantity }}
+    <br>
+    Status: {{ order.status }}
+    <br>
+    {% if order.status == "Confirmed: Preparing your order" or order.status == "ordered" %}
+    <button disabled>Order received</button>
+    {% elif order.status == "Ready to serve" %}
+    <button><a href="{% url 'received' order.id %}">Order received</a></button>
+    {% else %}
+        <button disabled>Received</button>
+        <br>
+        <button><a href="{% url 'feedback' order.id %}">Feedback</a></button>
+    {% endif %}
+    {% endif %}
+    <br>
+    {% endfor %}
+    <br>
+    <button><a href="{% url 'customer_home' customer.slug %}">Back</a></button>
+    <br>
+    <button><a href="{% url 'feedback_cusview' customer.slug %}">View feedback</a></button>
+</body>
+
+</html>

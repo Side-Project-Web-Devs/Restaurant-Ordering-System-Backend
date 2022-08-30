@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+</head>
+<body>
+<div>
+    <button><a href="{% url 'customer_home' cus.slug %}">Back</a></button><br><br>
+
+    <form method="POST">
+    {% csrf_token %}
+    {% for ord in cart %}
+        {% if ord.status == "in_cart" %}
+        <input type="checkbox" name="status" value="{{ ord.id }}">
+        {% if ord.order.image %}
+        <a href="{{ ord.order.image.url }}">
+            <img src="{{ ord.order.image.url }}" style="width: 50px; height: 50px;" alt="img">
+        </a>
+        {% endif %}
+        <br>
+        Product name: {{ ord.order.product_name }}
+        <br>
+        Description: {{ ord.order.description }}
+        <br>
+        Price: {{ ord.order.price }}
+        <br>
+        Quantity: {{ ord.quantity }}
+        <br>
+        <button><a href="{% url 'edit_cart' ord.id %}">Edit</a></button>
+        <br>
+        {% endif %}
+    {% endfor %}
+    <br>
+    <button type="submit">Place Order</a></button>
+    </form>
+</div>
+</body>
+</html>

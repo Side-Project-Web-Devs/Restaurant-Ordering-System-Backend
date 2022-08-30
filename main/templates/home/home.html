@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home</title>
 </head>
 <body>
 <div>WELCOME</div>
 <br>
-<div><a href="{% url 'customer_order' %}">View orders</a></div>
+<div><a href="{% url 'customer_list' %}">View orders</a></div>
 {% if request.user.is_staff %}
 <div><a href="{% url 'qrcode_generator' %}">QR code generator</a></div>
 <div><a href="{% url 'add_product' %}">Add Product</a></div>
+<div><a href="{% url 'feedback_admview' %}">View Feedback</a></div>
 <br>
 
 <div><a href="{% url 'register' %}">Register</a></div>
