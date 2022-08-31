@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rosdatabase',
         'USER': 'root',
-        'PASSWORD': 'Rollyrolly#18',
+        'PASSWORD': '!@#Default',
         'PORT': 3306,
         'HOST': '127.0.0.1',
     }

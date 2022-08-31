@@ -162,14 +162,12 @@ def edit_cart(response, id):
 def my_order(response, slug):
     customer = Customer.objects.filter(slug=slug).first()
     orders = Add_to_cart.objects.filter(customer=customer)
-    feedback = Feedback.objects.filter(cus=customer, ord=orders)
     if not orders:
         return HttpResponse('Empty')
 
     return render(response, 'customer/orders.html', {
         'orders': orders,
         'customer': customer,
-        "feedback": feedback,
     })
 
 def receive_order(response, id):
