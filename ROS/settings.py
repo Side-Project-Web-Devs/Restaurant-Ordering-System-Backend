@@ -23,6 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-9v91_gyy*kt^_daox#zg#!f&b(%bpf_q6yk#a=icqk3sj^(7bf'
 
+# Assets Management
+ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

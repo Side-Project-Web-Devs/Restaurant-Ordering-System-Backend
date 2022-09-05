@@ -1,11 +1,13 @@
+{% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add_Product</title>
+    {% block title %}Add_Product{% endblock %}
 </head>
+{% block content %}
 <body>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -14,4 +16,12 @@
     </form>
 
 </body>
+{% endblock %}
 </html>
+
+{% block javascripts %}
+<script>
+    var d = document.getElementById("manage_product-nav");
+    d.className += " active";
+</script>
+{% endblock %}

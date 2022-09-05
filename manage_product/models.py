@@ -1,8 +1,10 @@
 from pyexpat import model
+from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
 from main.models import Customer
 from django.core.validators import MaxLengthValidator
+
 
 class Manage_product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")

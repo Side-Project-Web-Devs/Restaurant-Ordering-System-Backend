@@ -162,8 +162,6 @@ def edit_cart(response, id):
 def my_order(response, slug):
     customer = Customer.objects.filter(slug=slug).first()
     orders = Add_to_cart.objects.filter(customer=customer)
-    if not orders:
-        return HttpResponse('Empty')
 
     return render(response, 'customer/orders.html', {
         'orders': orders,

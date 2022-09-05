@@ -1,9 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Customer's Order</title>
+    {% block title %}Customer's Order{% endblock %}
 </head>
+{% block content %}
 <body>
     {% for order in orders %}
         {% if order.status == "ordered" or order.status == "Confirmed: Preparing your order" or order.status == "Ready to serve" or order.status == "Received"%}
@@ -34,4 +38,12 @@
         {% endif %}
     {% endfor %}
 </body>
+{% endblock %}
 </html>
+
+{% block javascripts %}
+<script>
+    var d = document.getElementById("view_order-nav");
+    d.className += " active";
+</script>
+{% endblock %}

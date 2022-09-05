@@ -1,11 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    {% block title %}Home{% endblock %}
 </head>
-
+{% block content %}
 <body>
    <form method="POST">
     {% csrf_token %}
@@ -14,5 +17,12 @@
    </form>
 
 </body>
-
+{% endblock %}
 </html>
+
+{% block javascripts %}
+<script>
+    var d = document.getElementById("feedback-nav");
+    d.className += " active";
+</script>
+{% endblock %}
