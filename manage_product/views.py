@@ -2,9 +2,9 @@ from ast import Add
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.utils.text import slugify
 from appdirs import unicode
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .decorators import allowed_users
+from django.contrib import messages
 
 from .models import Manage_product, Add_to_cart, Feedback
 from .forms import Manage_productForm, FeedbackForm
@@ -23,11 +23,12 @@ def add_product(response):
             save = form.save(commit=False)
             save.user = user
             save.save()
-            save.slug = slugify(unicode('%s %s %s' % (save.product_name.lower(), str(save.id), save.description.lower())))
+            save.slug = slugify(unicode('%s %s %s' % (
+                save.product_name.lower(), str(save.id), save.description.lower())))
             save.save()
-            print("working")
+            messages.success(response, "Product successfully added to menu!")
         else:
-            return HttpResponse("Invalid")
+            messages.error(response, "Invalid Input!")
 
     form = Manage_productForm()
     product = Manage_product.objects.all()
@@ -36,6 +37,7 @@ def add_product(response):
         'product': product,
 
     })
+
 
 @login_required
 @allowed_users(allowed_roles=['admin'])
@@ -50,8 +52,10 @@ def edit_product(response, slug):
             save = form.save(commit=False)
             save.user = user
             save.save()
-            save.slug = slugify(unicode('%s %s %s' % (save.product_name.lower(), str(save.id), save.description.lower())))
+            save.slug = slugify(unicode('%s %s %s' % (
+                save.product_name.lower(), str(save.id), save.description.lower())))
             save.save()
+            messages.success(response, "Product successfully edited!")
         return redirect('add_product')
     return render(response, 'product/edit_product.html', {
         'form': form,
@@ -65,6 +69,7 @@ def delete_product(response, slug):
     product = Manage_product.objects.filter(slug=slug).first()
     product = get_object_or_404(Manage_product, slug=slug)
     product.delete()
+    messages.error(response, "Product successfully deleted!")
     return redirect('add_product')
 
 
@@ -72,11 +77,12 @@ def delete_product(response, slug):
 @allowed_users(allowed_roles=['admin'])
 def product_availability(response, slug):
     product = get_object_or_404(Manage_product, slug=slug)
-    data = Manage_product.objects.get(product_name=product.product_name, description=product.description, 
-                                        price=product.price, image=product.image, slug=product.slug)
+    data = Manage_product.objects.get(product_name=product.product_name, description=product.description,
+                                      price=product.price, image=product.image, slug=product.slug)
     data.user = response.user
     data.availability = False
     data.save()
+    messages.success(response, "Product mark as Unavailable")
     return redirect('add_product')
 
 
@@ -84,14 +90,13 @@ def product_availability(response, slug):
 @allowed_users(allowed_roles=['admin'])
 def return_availability(response, slug):
     product = get_object_or_404(Manage_product, slug=slug)
-    data = Manage_product.objects.get(product_name=product.product_name, description=product.description, 
-                                        price=product.price, image=product.image, slug=product.slug)
+    data = Manage_product.objects.get(product_name=product.product_name, description=product.description,
+                                      price=product.price, image=product.image, slug=product.slug)
     data.user = response.user
     data.availability = True
     data.save()
+    messages.success(response, "Product mark as Available")
     return redirect('add_product')
-
-
 
 
 def customer_addcart(response, customer, order):
@@ -102,19 +107,22 @@ def customer_addcart(response, customer, order):
         quantity = response.POST.get('quantity')
         status = "in_cart"
         if Add_to_cart.objects.filter(customer=customer, order=product, status=status):
-            return HttpResponse("This product is already in cart")
+            messages.error(response, "This product is already in cart")
+            return redirect('customer_home', customer.slug)
         else:
             slug = slugify(unicode('%s %s' % (
                 customer.name.lower(), product.product_name.lower())))
-            addcart = Add_to_cart(customer=customer, order=product, quantity=quantity, status=status, slug=slug)
+            addcart = Add_to_cart(
+                customer=customer, order=product, quantity=quantity, status=status, slug=slug)
             addcart.save()
-            
+            messages.success(response, "Successfully added to cart")
             return redirect('customer_home', customer.slug)
 
     return render(response, 'customer/add_cart.html', {
         'customer': customer,
         'product': product,
     })
+
 
 def customer_cart(response, customer):
     cus = Customer.objects.filter(slug=customer).first()
@@ -125,10 +133,12 @@ def customer_cart(response, customer):
 
             for d in data:
                 get = get_object_or_404(Add_to_cart, id=d)
-                ords =Add_to_cart(customer=get.customer, order=get.order, quantity=get.quantity, status="ordered", slug=get.slug, id=get.id)
+                ords = Add_to_cart(customer=get.customer, order=get.order,
+                                   quantity=get.quantity, status="ordered", slug=get.slug, id=get.id)
                 ords.save()
+                messages.success(response, "Successfully placed order!")
             return redirect('customer_cart', cus.slug)
-    
+
     return render(response, 'customer/customer_cart.html', {
         'cart': cart,
         'cus': cus,
@@ -137,26 +147,18 @@ def customer_cart(response, customer):
 
 def edit_cart(response, id):
     in_cart = get_object_or_404(Add_to_cart, id=id)
-    data = Add_to_cart.objects.get(customer=in_cart.customer, status=in_cart.status, order=in_cart.order, id=in_cart.id)
+    data = Add_to_cart.objects.get(
+        customer=in_cart.customer, status=in_cart.status, order=in_cart.order, id=in_cart.id)
     print(in_cart)
     if response.method == "POST":
         data.quantity = response.POST.get('quantity')
         data.save()
+        messages.success(response, "Product successfully edited!")
         return redirect('customer_cart', data.customer.slug)
 
     return render(response, 'customer/edit_cart.html', {
         'in_cart': in_cart,
     })
-
-# def checkbox(response, id):
-#     cart = Add_to_cart.objects.get(id=id)
-#     for car in cart:
-#         if response.method == "POST":
-#             status = response.POST.get("status")
-#             if status == True:
-#                 car.status == "checked"
-#                 car.save()
-#     return redirect('customer_cart', cart.customer.slug)
 
 
 def my_order(response, slug):
@@ -168,11 +170,14 @@ def my_order(response, slug):
         'customer': customer,
     })
 
+
 def receive_order(response, id):
     receive = get_object_or_404(Add_to_cart, id=id)
-    data = Add_to_cart.objects.get(customer=receive.customer, order=receive.order, quantity=receive.quantity, slug=receive.slug, id=receive.id)
+    data = Add_to_cart.objects.get(customer=receive.customer, order=receive.order,
+                                   quantity=receive.quantity, slug=receive.slug, id=receive.id)
     data.status = "Received"
     data.save()
+    messages.success(response, "Order Received!")
     return redirect('my_order', receive.customer.slug)
 
 
@@ -186,9 +191,11 @@ def feedback(response, id):
             save.cus = order.customer
             save.ord = order
             save.save()
+            messages.success(response, "Feedback successfully submitted!")
             return redirect('my_order', order.customer.slug)
         else:
-            return HttpResponse("invalid feedback")
+            messages.error(response, "Invalid feedback")
+            return redirect('my_order', order.customer.slug)
     form = FeedbackForm()
     return render(response, 'customer/feedback.html', {
         'form': form,
@@ -204,12 +211,18 @@ def feedback_cusview(response, slug):
         'customer': customer,
     })
 
+
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def feedback_admview(response):
     feedback = Feedback.objects.all().order_by('feedback')
     return render(response, 'crew/feedback_view.html', {
         'feedback': feedback,
     })
 
+
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def feedback_reply(response, id):
     feedback = Feedback.objects.filter(id=id)
     feed = get_object_or_404(Feedback, id=id)
@@ -217,6 +230,7 @@ def feedback_reply(response, id):
         form = FeedbackForm(response.POST, instance=feed)
         if form.is_valid():
             form.save()
+            messages.success(response, "Feedback replied successfully!")
             return redirect('feedback_admview')
     form = FeedbackForm()
     return render(response, 'crew/feedback_reply.html', {
@@ -224,12 +238,15 @@ def feedback_reply(response, id):
         'feedback': feedback,
     })
 
+
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def delete_reply(response, id):
     feed = get_object_or_404(Feedback, id=id)
     feed.reply = ""
     feed.save()
+    messages.error(response, "Reply deleted!")
     return redirect("feedback_admview")
-
 
 
 @login_required
@@ -257,9 +274,11 @@ def view_customer_order(response, slug):
 @allowed_users(allowed_roles=['admin', 'crew'])
 def confirm_order(response, id):
     order = get_object_or_404(Add_to_cart, id=id)
-    data = Add_to_cart.objects.get(customer=order.customer, order=order.order, quantity=order.quantity, slug=order.slug, id=order.id)
+    data = Add_to_cart.objects.get(
+        customer=order.customer, order=order.order, quantity=order.quantity, slug=order.slug, id=order.id)
     data.status = "Confirmed: Preparing your order"
     data.save()
+    messages.success(response, "Order confirmed!")
     return redirect('customer_order', data.customer.slug)
 
 
@@ -271,6 +290,5 @@ def serve_order(response, id):
         customer=order.customer, order=order.order, quantity=order.quantity, slug=order.slug, id=order.id)
     data.status = "Ready to serve"
     data.save()
+    messages.success(response, "Ready to serve!")
     return redirect('customer_order', data.customer.slug)
-
-

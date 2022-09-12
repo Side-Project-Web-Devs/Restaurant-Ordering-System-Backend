@@ -1,101 +1,103 @@
 {% extends 'cus_base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    {% block title %} Feedback {% endblock %}
-</head>
+{% block title %} Feedback {% endblock %}
+
 {% block content %}
-<body>
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
-         navbar-scroll="true">
-        <div class="container-fluid py-1 px-3">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-    
-                    <a href="{% url 'customer_home' order.customer.slug %}">
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
-                            <i class="fa fa-home me-1"></i>
-                        </li>
-                        <li class="breadcrumb-item text-sm"><a class="text-dark">
-                                <h7>Restaurant Ordering System</h7>
-                            </a></li>
+
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+     navbar-scroll="true">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+
+                <a href="{% url 'customer_home' order.customer.slug %}">
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
+                        <i class="fa fa-home me-1"> Restaurant Ordering System</i>
+                    </li>
+                </a>
+
+            </ol>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                <div class="input-group">
+                </div>
+            </div>
+
+            <ul class="navbar-nav  justify-content-end">
+
+                <li class="nav-item d-flex align-items-center">
+                    <a href="{% url 'my_order' order.customer.slug %}"
+                       class="nav-link text-body font-weight-bold px-0 active">
+                        <i class="fa fa-shopping-bag me-sm-1"></i>
                     </a>
-    
-                </ol>
-            </nav>
-            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                    <div class="input-group">
+                </li>
+                <li class="nav-item px-3 d-flex align-items-center"></li>
+                <li class="nav-item d-flex align-items-center">
+                    <a href="{% url 'customer_cart' order.customer.slug %}"
+                       class="nav-link text-body font-weight-bold px-0 active">
+                        <i class="fa fa-shopping-cart me-sm-1"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item d-flex align-items-center">
+                    <a href="{% url 'customer' %}" class="nav-link text-body font-weight-bold px-0 active">
+                <li class="nav-item px-3 d-flex align-items-center"></li>
+                <span class="d-sm-inline d-none"> END ORDER</span>
+                <i class="fa fa-sign-out me-sm-1"></i>
+                </a>
+                </li>
+                <li class="nav-item px-3 d-flex align-items-center"></li>
+                <li class="nav-item pe-2 d-flex align-items-center">
+                    <label for="theme-switch" class="nav-link text-body p-0 m-0">
+                        <i class="fa fa-sun fixed-plugin-button-nav cursor-pointer" id="theme-indicator"></i>
+                    </label>
+                    <input type="checkbox" class="d-none" id="theme-switch" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<hr>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="ibox-content m-b-sm border-bottom">
+                    <!--Header title-->
+                    <div class="row">
+
+                        <div class="col-10">
+                            <h2>Feedback</h2>
+                            <span></span>
+                        </div>
                     </div>
                 </div>
-    
-                <ul class="navbar-nav  justify-content-end">
-    
-                    <li class="nav-item d-flex align-items-center">
-                        <a href="{% url 'my_order' order.customer.slug %}"
-                           class="nav-link text-body font-weight-bold px-0 active">
-                            <i class="fa fa-shopping-bag me-sm-1"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item px-3 d-flex align-items-center"></li>
-                    <li class="nav-item d-flex align-items-center">
-                        <a href="{% url 'customer_cart' order.customer.slug %}"
-                           class="nav-link text-body font-weight-bold px-0 active">
-                            <i class="fa fa-shopping-cart me-sm-1"></i>
-                        </a>
-                    </li>
-    
-                    <li class="nav-item d-flex align-items-center">
-                        <a href="{% url 'customer' %}" class="nav-link text-body font-weight-bold px-0 active">
-                    <li class="nav-item px-3 d-flex align-items-center"></li>
-                    <button class="btn btn-danger"><span class="d-sm-inline d-none">END ORDER</span></button>
-                    </a>
-                    </li>
-                    <!-- <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                                        <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                                            <div class="sidenav-toggler-inner">
-                                                <i class="sidenav-toggler-line"></i>
-                                                <i class="sidenav-toggler-line"></i>
-                                                <i class="sidenav-toggler-line"></i>
-                                            </div>
-                                        </a>
-                                    </li> -->
-                    <li class="nav-item px-3 d-flex align-items-center"></li>
-                    <!-- <a href="javascript:;" class="nav-link text-body p-0">
-                                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                                        </a> -->
-    
-    
-                    <li class="nav-item pe-2 d-flex align-items-center">
-                        <label for="theme-switch" class="nav-link text-body p-0 m-0">
-                            <i class="fa fa-sun fixed-plugin-button-nav cursor-pointer" id="theme-indicator"></i>
-                        </label>
-                        <input type="checkbox" class="d-none" id="theme-switch" />
-                    </li>
-                </ul>
             </div>
         </div>
-    </nav>
-
-    <div>    
-        <button><a href="{% url 'my_order' order.customer.slug %}">Back</a></button>
-        <br>
-        Customer's name: {{ order.customer }}
-        <br>            
-        Product name: {{ order.order }}
-        <br>
-        
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.feedback }}
-            <br>
-            <button type="submit">Submit feedback</button>
-        </form>
     </div>
-</body>
+</div>
+<br>
+
+<div class="container">
+    <a href="{% url 'my_order' order.customer.slug %}" style="text-decoration: none; color: rgb(0, 0, 0);"><i
+           class="fa fa-arrow-left me-sm-1"> Back</i></a>
+    <br>
+    <br>
+    <div>
+        <h5>Customer's name: {{ order.customer }}</h5>
+        <p>Product name: {{ order.order }}</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.feedback }}
+        <br>
+        <button type="submit" class="btn btn-primary">Submit feedback</button>
+    </form>
+</div>
+
 {% endblock %}
-</html>
