@@ -16,7 +16,8 @@
                         <div class="col-10">
                             <h2>Customer's Order</h2>
 
-                            <span>{{ customer.name | title }}</span>
+                            <span>{{ customer.name | title }}</span><br>
+                            <span>Table Number: {{ customer.table_number }}</span>
 
                         </div>
                     </div>
@@ -57,7 +58,8 @@
                     <h5 class="fw-bold">{{ order.order.product_name }}</h5>
                     <small class="text-muted">{{ order.order.description }}</small>
                     <p>₱ {{ order.order.price }}</p>
-                    <small>Quantity: {{ order.quantity }}</small>
+                    <small>Quantity: {{ order.quantity }}</small><br>
+                    <small><strong>{{ order.to_di }}</strong></small>
                     <p>Status: {{ order.status }}</p>
                     {% if order.status == "Confirmed: Preparing your order" %}
                     <button class="btn btn-primary"><a href="{% url 'serve_order' order.id %}"

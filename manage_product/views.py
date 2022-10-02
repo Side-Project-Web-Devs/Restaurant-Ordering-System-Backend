@@ -106,17 +106,31 @@ def customer_addcart(response, customer, order):
     if response.method == 'POST':
         quantity = response.POST.get('quantity')
         status = "in_cart"
-        if Add_to_cart.objects.filter(customer=customer, order=product, status=status):
-            messages.error(response, "This product is already in cart")
-            return redirect('customer_home', customer.slug)
-        else:
-            slug = slugify(unicode('%s %s' % (
-                customer.name.lower(), product.product_name.lower())))
-            addcart = Add_to_cart(
-                customer=customer, order=product, quantity=quantity, status=status, slug=slug)
-            addcart.save()
-            messages.success(response, "Successfully added to cart")
-            return redirect('customer_home', customer.slug)
+        to_di = response.POST.get('to_di')
+        if to_di == "True":
+            if Add_to_cart.objects.filter(customer=customer, order=product, status=status):
+                messages.error(response, "This product is already in cart")
+                return redirect('customer_home', customer.slug)
+            else:
+                slug = slugify(unicode('%s %s' % (
+                    customer.name.lower(), product.product_name.lower())))
+                addcart = Add_to_cart(
+                    customer=customer, order=product, quantity=quantity, status=status, to_di='Take Out', slug=slug)
+                addcart.save()
+                messages.success(response, "Successfully added to cart")
+                return redirect('customer_home', customer.slug)
+        elif to_di == "False":
+            if Add_to_cart.objects.filter(customer=customer, order=product, status=status):
+                messages.error(response, "This product is already in cart")
+                return redirect('customer_home', customer.slug)
+            else:
+                slug = slugify(unicode('%s %s' % (
+                    customer.name.lower(), product.product_name.lower())))
+                addcart = Add_to_cart(
+                    customer=customer, order=product, quantity=quantity, status=status, to_di='Dine In', slug=slug)
+                addcart.save()
+                messages.success(response, "Successfully added to cart")
+                return redirect('customer_home', customer.slug)
 
     return render(response, 'customer/add_cart.html', {
         'customer': customer,
@@ -133,8 +147,9 @@ def customer_cart(response, customer):
 
             for d in data:
                 get = get_object_or_404(Add_to_cart, id=d)
+
                 ords = Add_to_cart(customer=get.customer, order=get.order,
-                                   quantity=get.quantity, status="ordered", slug=get.slug, id=get.id)
+                                   quantity=get.quantity, status="ordered", to_di=get.to_di, slug=get.slug, id=get.id)
                 ords.save()
                 messages.success(response, "Successfully placed order!")
             return redirect('customer_cart', cus.slug)
@@ -148,11 +163,17 @@ def customer_cart(response, customer):
 def edit_cart(response, id):
     in_cart = get_object_or_404(Add_to_cart, id=id)
     data = Add_to_cart.objects.get(
-        customer=in_cart.customer, status=in_cart.status, order=in_cart.order, id=in_cart.id)
+        customer=in_cart.customer, status=in_cart.status, to_di=in_cart.to_di, order=in_cart.order, id=in_cart.id)
     print(in_cart)
     if response.method == "POST":
         data.quantity = response.POST.get('quantity')
-        data.save()
+        data.to_di = response.POST.get('to_di')
+        if data.to_di == "True":
+            data.to_di = "Take Out"
+            data.save()
+        elif data.to_di == "False":
+            data.to_di = "Dine In"
+            data.save()
         messages.success(response, "Product successfully edited!")
         return redirect('customer_cart', data.customer.slug)
 
@@ -256,6 +277,16 @@ def customer_list(response):
 
     return render(response, "crew/customer_list.html", {
         'customer': customer,
+    })
+
+
+@login_required
+@allowed_users(allowed_roles=['admin', 'crew'])
+def total_order(response):
+    orders = Add_to_cart.objects.all()
+
+    return render(response, "crew/total_order.html", {
+        'orders': orders,
     })
 
 
