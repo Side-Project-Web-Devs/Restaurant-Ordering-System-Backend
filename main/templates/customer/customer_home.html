@@ -19,6 +19,8 @@
                     {% for cus in customer %}
                     <a href="{% url 'customer_home' cus.slug %}">
                         <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
+                            <img src="{% static 'assets/img/logo.png' %}" class="navbar-brand-img h-100" alt="main_logo"
+                                 style="height: 50px; width: 50px;">
                             <i class="fa fa-home me-1"> Restaurant Ordering System</i>
                         </li>
                     </a>
@@ -130,15 +132,15 @@
             <div class="col-lg-5">
                 <div class="card h-100 p-3">
                     <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100"
-                         style="background-image: url('../../../media/product_image/pork-adobo.jpg');">
+                         style="background-image: url('../../../media/product_image/background.jpg');">
                         <span class="mask bg-gradient-dark"></span>
                         <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-                            <h5 class="text-white font-weight-bolder mb-4 pt-2">Restaurant Ordering System</h5>
-                            <p class="text-white"></p>
+                            <h5 class="text-white font-weight-bolder mb-4 pt-2">BBQ KING - Bulan</h5>
+                            <p class="text-white">Barbecue Restaurant</p>
                             <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto"
                                href="javascript:;">
-                                Read More
-                                <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                                <!-- Read More
+                                <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i> -->
                             </a>
                         </div>
                     </div>

@@ -60,7 +60,6 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'ROS.urls'
 
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -83,15 +82,30 @@ WSGI_APPLICATION = 'ROS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'rosdatabase',
+#         'USER': 'root',
+#         'PASSWORD': '!@#Default',
+#         'PORT': 3306,
+#         'HOST': '127.0.0.1',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rosdatabase',
-        'USER': 'root',
-        'PASSWORD': '!@#Default',
-        'PORT': 3306,
-        'HOST': '127.0.0.1',
-    }
+        'ENGINE': 'sql_server.pyodbc',
+        'HOST': 'LOLLYPOP\SQLEXPRESS',
+        'PORT': '',
+        'NAME': 'rosdb',
+        'USER': '',
+        'PASSWORD': '',
+
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
+    },
 }
 
 

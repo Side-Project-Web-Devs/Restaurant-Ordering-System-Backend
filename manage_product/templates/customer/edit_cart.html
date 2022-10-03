@@ -105,6 +105,20 @@
 
             <form method="POST">
                 {% csrf_token %}
+                <div class="">
+                    <input class="form-check-input" type="radio" name="to_di" id="flexRadioDefault1"
+                           {% if in_cart.to_di == "True" %} checked {% endif %} value="True" required>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Take Out
+                    </label>
+                </div>
+                <div class="">
+                    <input class="form-check-input" type="radio" name="to_di" id="flexRadioDefault2"
+                           {% if in_cart.to_di == "False" %} checked {% endif %} value="False" required>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Dine In
+                    </label>
+                </div>
                 <input type="number" value="{{ in_cart.quantity}}" name="quantity" class="form-control">
                 <br>
                 <button type="submit" class="btn btn-primary">Update</button>

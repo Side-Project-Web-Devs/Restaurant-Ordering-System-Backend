@@ -121,6 +121,7 @@ Cart
                             <h5 class="fw-bold">{{ ord.order.product_name }}</h5>
                             <small class="text-muted">{{ ord.order.description }}</small><br>
                             <small>₱ {{ ord.order.price }}</small><br>
+
                         </div>
                         <div>
                             <a href="{% url 'edit_cart' ord.id %}"
@@ -131,7 +132,8 @@ Cart
                 </div>
             </div>
             <br>
-            <small>Quantity: {{ ord.quantity }}</small>
+            <small>Quantity: {{ ord.quantity }}</small><br>
+            <small><strong>{{ ord.to_di }}</strong></small>
             <hr>
         </div><br>
         {% endif %}

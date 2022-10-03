@@ -25,6 +25,14 @@
 </div>
 <br>
 
+<div class="container-fluid" style="margin-bottom: 10px; align-items: right; justify-content: right; display: flex">
+    <button type="button" class="btn btn-primary"><a href="{% url 'total_order' %}"
+           style="text-decoration: none; color: rgb(255, 255, 255);">Total Orders</a>
+
+    </button>
+    <br>
+</div>
+
 {% for cus in customer %}
 <div class="container">
     <a href="{% url 'customer_order' cus.slug %}" style="text-decoration: none; color: rgb(15, 199, 15);">
@@ -32,6 +40,7 @@
             <div class="card-body">
                 <h5 class="fw-bold">Name: {{ cus.name }}</h5>
                 <small class="text-muted">Table Number: <strong>{{ cus.table_number }}</strong></small>
+
             </div>
         </div>
     </a>

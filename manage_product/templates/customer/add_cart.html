@@ -107,7 +107,20 @@
     <form method="POST">
         {% csrf_token %}
         <div>
-            <input type="number" name="quantity" class="form-control" placeholder="Quantity">
+            <div class="">
+                <input class="form-check-input" type="radio" name="to_di" id="flexRadioDefault1" value="True" required>
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Take Out
+                </label>
+            </div>
+            <div class="">
+                <input class="form-check-input" type="radio" name="to_di" id="flexRadioDefault2" value="False" required>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Dine In
+                </label>
+            </div>
+
+            <input type="number" name="quantity" class="form-control" placeholder="Quantity" required>
             <br>
             <button class="btn btn-success" type="submit">Add</button>
         </div>
