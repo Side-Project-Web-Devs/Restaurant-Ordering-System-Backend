@@ -70,7 +70,7 @@ def landing_page(response):
     t_money = Add_to_cart.objects.filter(status="Received")
     total_money = 0
     for money in t_money:
-        total = total_money + money.order.price
+        total = total_money + money.order.price * money.quantity
         total_money = total
     print(total_money)
 
