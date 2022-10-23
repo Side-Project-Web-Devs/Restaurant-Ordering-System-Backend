@@ -5,8 +5,9 @@ from appdirs import unicode
 from django.contrib.auth.decorators import login_required
 from .decorators import allowed_users
 from django.contrib import messages
+from django.utils.timezone import now
 
-from .models import Manage_product, Add_to_cart, Feedback
+from .models import Manage_product, Add_to_cart, Feedback, Inventory, Date_inv
 from .forms import Manage_productForm, FeedbackForm
 from main.models import Customer
 
@@ -97,6 +98,55 @@ def return_availability(response, slug):
     data.save()
     messages.success(response, "Product mark as Available")
     return redirect('add_product')
+
+
+@login_required
+@allowed_users(allowed_roles=['admin'])
+def inventory(response):
+    pro = Manage_product.objects.all()
+    inv = Inventory.objects.all()
+    date = Date_inv.objects.all().order_by("date")
+    if response.method == "POST":
+        d = Date_inv()
+        d.save()
+        for p in pro:
+            inve = Inventory(product=p.product_name, remaining=p.remaining,
+                             sold=p.sold, new=p.new, total=p.total)
+            inve.save()
+        messages.success(response, "Successfully added")
+        return redirect("inventory")
+
+    return render(response, 'product/inventory.html', {
+
+        'inv': inv,
+        'pro': pro,
+        'date': date,
+    })
+
+
+@login_required
+@allowed_users(allowed_roles=['admin'])
+def edit_inventory(response, id):
+    pro = get_object_or_404(Manage_product, id=id)
+    if response.method == "POST":
+        sold = response.POST.get("sold")
+        new = response.POST.get("new")
+        remaining = response.POST.get("remaining")
+        data = Manage_product.objects.get(product_name=pro.product_name, description=pro.description,
+                                          price=pro.price, image=pro.image, slug=pro.slug)
+        data.sold = sold
+        data.new = new
+        data.remaining = remaining
+        data.total = int(data.remaining) + int(sold) + int(new)
+
+        data.save()
+        messages.success(response, "Successfully edited!")
+        return redirect('inventory')
+
+    form = Manage_productForm(response.POST or None, instance=pro)
+    return render(response, 'product/edit_inventory.html', {
+        'pro': pro,
+    })
 
 
 def customer_addcart(response, customer, order):

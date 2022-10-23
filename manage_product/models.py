@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.forms import BooleanField
 from main.models import Customer
 from django.core.validators import MaxLengthValidator
+from django.utils.timezone import now
 
 
 class Manage_product(models.Model):
@@ -18,6 +19,10 @@ class Manage_product(models.Model):
     price = models.IntegerField(blank=False)
     availability = models.BooleanField(default=True)
     slug = models.SlugField(max_length=250, null=True)
+    remaining = models.IntegerField(default=0)
+    sold = models.IntegerField(default=0)
+    new = models.IntegerField(default=0)
+    total = models.IntegerField(default=0)
 
     def __str__(self):
         return self.product_name
@@ -46,3 +51,22 @@ class Feedback(models.Model):
 
     def __str__(self):
         return str(self.cus) + " order " + str(self.ord)
+
+
+class Date_inv(models.Model):
+    date = models.DateField(default=now)
+
+    def __str__(self):
+        return str(self.date)
+
+
+class Inventory(models.Model):
+    product = models.CharField(max_length=500, null=True)
+    remaining = models.IntegerField(default=0)
+    sold = models.IntegerField(default=0)
+    new = models.IntegerField(default=0)
+    total = models.IntegerField(default=0)
+    timestamp = models.DateField(default=now)
+
+    def __str__(self):
+        return str(self.product) + "" + str(self.timestamp)
