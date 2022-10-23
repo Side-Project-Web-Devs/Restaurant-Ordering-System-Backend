@@ -31,6 +31,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# ALLOWED_HOSTS = ['resordsys.pythonanywhere.com']
+
 
 # Application definition
 
@@ -85,27 +87,33 @@ WSGI_APPLICATION = 'ROS.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'rosdatabase',
-#         'USER': 'root',
+#         'NAME': 'resordsys$resordsys_database',
+#         'USER': 'resordsys',
 #         'PASSWORD': '!@#Default',
 #         'PORT': 3306,
-#         'HOST': '127.0.0.1',
+#         'HOST': 'resordsys.mysql.pythonanywhere-services.com',
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'sql_server.pyodbc',
+#         'HOST': 'LOLLYPOP\SQLEXPRESS',
+#         'PORT': '',
+#         'NAME': 'rosdb',
+#         'USER': '',
+#         'PASSWORD': '',
+
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',
+#         },
+#     },
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'sql_server.pyodbc',
-        'HOST': 'LOLLYPOP\SQLEXPRESS',
-        'PORT': '',
-        'NAME': 'rosdb',
-        'USER': '',
-        'PASSWORD': '',
-
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-        },
-    },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
@@ -144,7 +152,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
+# Localhost
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Deploment
+# STATIC_ROOT = '/home/resordsys/mysite/static'
 if not DEBUG:
     print('staticfilesdir')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
@@ -152,7 +163,10 @@ else:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
+# localhost
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# deployment
+# MEDIA_ROOT = '/home/resordsys/mysite/media'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

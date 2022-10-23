@@ -16,6 +16,8 @@ urlpatterns = [
     path('feedback_admview/', views.feedback_admview, name="feedback_admview"),
     path('feedback_reply/<int:id>/', views.feedback_reply, name="feedback_reply"),
     path('delete_reply/<int:id>/', views.delete_reply, name="delete_reply"),
+    path('inventory/', views.inventory, name="inventory"),
+    path('edit_inventory/<int:id>/', views.edit_inventory, name='edit_inventory'),
 
     path('add_to_cart/<slug:customer>/<slug:order>/',
          views.customer_addcart, name='add_to_cart'),
