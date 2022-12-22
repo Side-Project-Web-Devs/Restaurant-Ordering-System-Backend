@@ -58,7 +58,7 @@
 {% for qr in qr_code %}
 <div class="container-fluid">
    <figure class="figure">
-      <img src="{{qr.image.url}}" alt="image">
+      <img src="{{qr.image.url}}">
       <figcaption class="figure-caption">{{ qr.url }}</figcaption>
    </figure>
    <button class="btn btn-danger"><a href="{% url 'delete_qr' qr.id %}"

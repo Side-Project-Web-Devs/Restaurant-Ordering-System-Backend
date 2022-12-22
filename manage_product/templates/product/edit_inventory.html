@@ -50,15 +50,15 @@
             </div>
             <div class="col">
                 <label for="">Remaining</label>
-                <input type="number" class="form-control" value="{{pro.remaining}}" name="remaining">
+                <input type="number" class="form-control" value="{{pro.remaining}}" name="remaining" readonly>
             </div>
             <div class="col">
                 <label for="">Sold</label>
-                <input type="number" class="form-control" value="{{pro.sold}}" name="sold">
+                <input type="number" class="form-control" value=0 name="sold">
             </div>
             <div class="col">
                 <label for="">New</label>
-                <input type="number" class="form-control" value="{{pro.new}}" name="new">
+                <input type="number" class="form-control" value=0 name="new">
             </div>
             <div class="col">
                 <label for="">Total</label>
@@ -82,7 +82,7 @@
 
 {% block javascripts %}
 <script>
-    var d = document.getElementById("manage_product-nav");
+    var d = document.getElementById("inventory-nav");
     d.className += " active";
 </script>
 {% endblock %}

@@ -41,6 +41,27 @@
 </div>
 
 <div class="container">
+    <div class="row g-3">
+        <div class="col">
+            <label for="">Product</label>
+        </div>
+        <div class="col">
+            <label for="">Remaining</label>
+        </div>
+        <div class="col">
+            <label for="">Sold</label>
+        </div>
+        <div class="col">
+            <label for="">New</label>
+        </div>
+        <div class="col">
+            <label for="">Total</label>
+        </div>
+        <div class="col">
+            <label for="">Option</label>
+        </div>
+        <hr>
+    </div>
     <form method="POST">
         {% csrf_token %}
         <div class="row g-3">
@@ -141,7 +162,7 @@
 
 {% block javascripts %}
 <script>
-    var d = document.getElementById("manage_product-nav");
+    var d = document.getElementById("inventory-nav");
     d.className += " active";
 </script>
 {% endblock %}
