@@ -105,7 +105,7 @@ def return_availability(response, slug):
 def inventory(response):
     pro = Manage_product.objects.all()
     inv = Inventory.objects.all()
-    date = Date_inv.objects.all().order_by("date")
+    date = Date_inv.objects.all().order_by('-date')
     if response.method == "POST":
         d = Date_inv()
         d.save()
@@ -131,13 +131,14 @@ def edit_inventory(response, id):
     if response.method == "POST":
         sold = response.POST.get("sold")
         new = response.POST.get("new")
-        remaining = response.POST.get("remaining")
         data = Manage_product.objects.get(product_name=pro.product_name, description=pro.description,
                                           price=pro.price, image=pro.image, slug=pro.slug)
-        data.sold = sold
-        data.new = new
-        data.remaining = remaining
-        data.total = int(data.remaining) + int(sold) + int(new)
+        data.sold = int(data.sold) + int(sold)
+        sol = data.sold
+        data.new = int(data.new) + int(new)
+        data.remaining = int(data.remaining) - int(sold) + int(new)
+        rem = data.remaining
+        data.total = int(rem) + int(sol)
 
         data.save()
         messages.success(response, "Successfully edited!")

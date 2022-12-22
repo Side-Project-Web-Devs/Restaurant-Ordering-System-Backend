@@ -14,7 +14,7 @@ class QrCode(models.Model):
 
     def save(self, *args, **kwargs):
         qrcode_img = qrcode.make(self.url)
-        canvas = Image.new("RGB", (300, 300), "white")
+        canvas = Image.new("RGB", (400, 400), "white")
         draw = ImageDraw.Draw(canvas)
         canvas.paste(qrcode_img)
         buffer = BytesIO()
